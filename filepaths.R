@@ -1,6 +1,7 @@
 filepath <- function(w = 'UCI HAR Dataset', x = 'test', y = 'train',
                      z = 'Inertial Signals') {
-               list(activitylabels = file.path(temp,w, 'activity_labels.txt'),
+               list(root           = file.path(temp,w),
+                    activitylabels = file.path(temp,w, 'activity_labels.txt'),
                     features       = file.path(temp,w, 'features.txt'),
                     subjecttest    = file.path(temp,w,x, 'subject_test.txt'),
                     xtest          = file.path(temp,w,x, 'X_test.txt'),

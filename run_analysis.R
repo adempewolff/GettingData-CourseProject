@@ -7,11 +7,11 @@
 ## Hardware-Friendly Support Vector Machine. International Workshop of Ambient 
 ## Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
 ##
-## Created by Austin Dempewolff (adempewolff@gmail.com) as part of the Coursera
-## "Getting Data" course's final project.
+## Script written by Austin Dempewolff (adempewolff@gmail.com) as an assignment
+## for the Coursera "Getting Data" course's final project.
+
 
 ## Load required packages and throw error if not installed.
-
 required <- c("dplyr", "tidyr")
 success <- sapply(required, require, character.only = TRUE)
 if(!all(success)) {
@@ -20,29 +20,37 @@ if(!all(success)) {
 }
 rm(required, success)
 
-## Download and unzip the data (after checking to ensure that it hasn't
-## already been downloaded).
 
+## Download data if not found locally
 path <- file.path('data', 'UCI_HAR_Dataset.zip')
 fileurl <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip'
 if(!dir.exists('data')) { dir.create('data') }
 if(!file.exists(path)) {
      print('downloading data, this may take some time')
      download.file(fileurl, destfile = path)
+     print('success')
 } else { print('zipped data found locally') }
-temp <- tempdir()
-     unzip(path, exdir = temp)
-rm(path, fileurl)
+rm(fileurl)
 
-## Create required filepaths and store in list: filepaths
-source('reqfiles.R')
-rm(temp)
+
+## Unzip to temporary directory if not already done
+temp <- tempdir()
+if(!dir.exists(file.path(temp, 'UCI HAR Dataset'))) {
+     print('Unzipping data')
+     unzip(path, exdir = temp)
+     print('success')
+} else {
+     print('Using existing unzipped files')
+}
+rm(path)
+
+
+## Create required filepaths and store in 'filepaths' (list)
+source('filepaths.R')
+rm(temp, filepath)
+
      
-## Get variable names
-varnames <- read.table(filepaths$features)
-varnames <- tolower(varnames$V2)
-     
-## Define function to read in, merge and label all files for test or train
+## Define function to read in and merge for test or train
 readin <- function(x) {
      files <- c('x', 'y', 'subject')
      files <- paste(files, x, sep = '')
@@ -53,7 +61,6 @@ readin <- function(x) {
           tmp
      })
      print('Merging tables')
-     names(output[[1]]) <- varnames
      output <- data.frame(output[[3]], output[[2]], output[[1]])
      names(output)[1:2] <- c('subject', 'activity')
      print('Success')
@@ -63,7 +70,7 @@ readin <- function(x) {
 # Read in and label data
 testdata <- readin('test')
 traindata <- readin('train')
-rm(varnames)
+rm(readin)
 
 ## combine test & train datasets then wrap in tbl
 fulldata <- rbind.data.frame(testdata, traindata)
@@ -72,16 +79,41 @@ fulldata <- tbl_df(fulldata)
      
 ## Change subject & activity to factors and label accordingly
 activitylabels <- read.table(filepaths$activitylabels)
+activitylabels <- tolower(activitylabels$V2)
+activitylabels <- sub('_', ' ', activitylabels)
 fulldata <- mutate(fulldata, subject = factor(subject),
-                   activity = factor(activity, labels = activitylabels$V2))
+                   activity = factor(activity, labels = activitylabels))
 
-## Select desired variables
+## Get variable names, fix duplicate variables (the bandsEnergy columns are all
+## missing xyz axis-labels), and label dataset
+varnames <- read.table(filepaths$features)
+varnames <- tolower(varnames$V2)
+xyzseq <- rep(c('-x','-y','-z'), each = 14, times = 3)
+counter <- 1
+for(i in seq_along(varnames)) {
+     if(grepl('bandsenergy()', varnames[i])) {
+          print('in condition')
+          varnames[i] <- sub('$', xyzseq[counter], varnames[i])
+          counter <- counter + 1
+     }
+}
+varnames <- append(c('subject', 'activity'), varnames)
+names(fulldata) <- varnames
+rm(counter, i, xyzseq, varnames)
+
+
+## Select desired variables and save to new table
+meanstd <- select(fulldata, subject, activity, contains('-mean()'), 
+                  contains('-std()'))
 
 ## Group by activity and summarize
 
-## Give more readable labels
+meanstd <- group_by(meanstd, subject, activity) %>% summarize_each(funs(mean))
 
-## Export
+
+## Export to text file
+
+write.table(meanstd, file ='HAR_meanstd_strata_avg.txt', row.name=FALSE)
      
 
 
