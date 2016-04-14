@@ -9,8 +9,8 @@
 ## Hardware-Friendly Support Vector Machine. International Workshop of Ambient 
 ## Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
 ##
-## Script written by Austin Dempewolff (adempewolff@gmail.com) as an assignment
-## for the Coursera "Getting Data" course's final project.
+## Script written by Austin Dempewolff (adempewolff@gmail.com) as part of the
+## Coursera "Getting Data" course's final project.
 
 
 ## Load required packages and throw error if not installed.
@@ -128,9 +128,8 @@ tidymeanstd <- gather(meanstd, "variable", "mean", 3:68)
 
 ## Export to text file
 print('Writing results to HAR_meanstd_strata_avg.txt...')
-write.table(tidymeanstd, file ='HAR_meanstd_strata_avg.txt', row.name=FALSE)
+write.table(tidymeanstd, file ='HAR_meanstd_avg.txt', row.name=FALSE)
 print('Success')
-     
 
 
 

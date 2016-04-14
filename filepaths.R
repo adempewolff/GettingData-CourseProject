@@ -1,3 +1,8 @@
+## This script builds a list with file paths to all the neccesary files in the 
+## UCI HAR dataset.  It uses a function to do this--mostly the save space, but
+## this function could also be used to rebuild the file path lists if any of 
+## the directory names changed.
+
 filepath <- function(w = 'UCI HAR Dataset', x = 'test', y = 'train',
                      z = 'Inertial Signals') {
                list(root           = file.path(temp,w),
