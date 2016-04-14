@@ -14,7 +14,7 @@
 
 
 ## Load required packages and throw error if not installed.
-required <- c("dplyr")
+required <- c("dplyr", "tidyr")
 success <- sapply(required, require, character.only = TRUE)
 if(!all(success)) {
      stop(paste("Please ensure the following package is installed:", 
@@ -122,9 +122,13 @@ print('Grouping by activity/subject and summarizing...')
 meanstd <- group_by(meanstd, subject, activity) %>% summarize_each(funs(mean))
 print('Success')
 
+
+## Make narrow - gather columns 3-68 into a column called "variable"
+tidymeanstd <- gather(meanstd, "variable", "mean", 3:68)
+
 ## Export to text file
 print('Writing results to HAR_meanstd_strata_avg.txt...')
-write.table(meanstd, file ='HAR_meanstd_strata_avg.txt', row.name=FALSE)
+write.table(tidymeanstd, file ='HAR_meanstd_strata_avg.txt', row.name=FALSE)
 print('Success')
      
 
