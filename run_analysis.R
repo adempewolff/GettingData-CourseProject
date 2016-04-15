@@ -124,7 +124,10 @@ print('Success')
 
 
 ## Make narrow - gather columns 3-68 into a column called "variable"
-tidymeanstd <- gather(meanstd, "variable", "mean", 3:68)
+## and convert to factor variable
+tidymeanstd <- gather(meanstd, "variable", "mean", 3:68) %>%
+     mutate(variable = factor(variable))
+
 
 ## Export to text file
 print('Writing results to HAR_meanstd_strata_avg.txt...')

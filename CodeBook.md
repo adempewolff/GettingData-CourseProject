@@ -98,24 +98,193 @@ features_info.txt:
 
 ##Data Preparation, Cleaning, Analysis and Reshaping:
 
-The data was downloaded, imported, cleaned, analyzed, reshaped and exported using the script run_analysis.R which is described in detail in the file README.md.  In brief, the script performed the following steps:  
-1. Downloaded the [file](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) if not found locally.
-2. Unzipped the dataset to a temporary directory if not already found unzipped.
-3. Read in and label the _test_ and _train_ datasets.
-  * Merged _x_, _y_, and _activity_ tables
-  * Labeled _subject_ and _activity_ columns accordingly
+The data was downloaded, imported, cleaned, analyzed, reshaped and exported using the script run\_analysis.R which is described in detail in the file README.md.  The script was run on an Ubuntu 15.04 system (64bit) in RStudio (Version 0.99.892) using R version 3.2.3 (2015-12-10).  The script uses the _dlpyr_ (version 0.4.3) and _tidy_ (version 0.4.1) packages.
+
+In brief, the script performed the following steps:  
+
+1. Downloaded the [dataset](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) if not found locally
+2. Unzipped the dataset to a temporary directory if not already found unzipped
+3. Read in and label the _test_ and _train_ datasets
+    * Merged _x_, _y_, and _activity_ tables
+    * Labeled _subject_ and _activity_ columns accordingly
 4. Combined _test_ and _train_ datasets
 5. Changed _subject_ and _activity_ columns to factor variables
-  * Gave factors human readable labels
+    * Gave factors human readable labels
 6. Assigned variable names for dataset, fixing duplicates
-  * The _bandsEnergy_ variables were all missing (xyz) axis labels.  This was fixed using the assumed order (1) x, (2) y, (3) z.
+    * The _bandsEnergy_ variables were all missing (xyz) axis labels.  This was fixed using the assumed order (1) x, (2) y, (3) z.
 7. Selected only mean() and std() variables and saved to a new dataframe
-  * New dataframe is stored as _meanstd_
-  * Old dataframe is left in memory as _fulldata_
+    * New dataframe is stored as _meanstd_
+    * Old dataframe is left in memory as _fulldata_
 8. Grouped by subject and activity and computed an average for each group
-9. Reshaped into a narrow dataset--gathering variables into one one column and showing avgs for each variable in a second new column
+9. Reshaped into a narrow dataset
+    * Gathered variables into one one column and convert to factor variable
+    * Put averages for each variable/group in a second new column
 10. Exported to the tabular text file: "HAR_meanstd_avg.txt"
+
 
 ----------------------------------------------------------------------------------------------------------
 
 ##Codebook: Variables and Structure of Final Dataset
+
+The exported dataset is narrow and long with four columns:  
+
+1. subject
+2. activity
+3. variable
+4. mean
+
+###subject
+An integer between 1-30 which is the unique ID for each participant in the experiment
+
+###activity
+Describes which activity the subject was performing for each record.  There are six possible values:
+
+1. "walking"
+2. "walking upstairs"
+3. "walking downstairs"
+4. "sitting"
+5. "standing"
+6. "laying"
+
+###variable
+One of 66 variables for which a summary statistic (average by group) is calculated.  There are 17 measurements--8 of which have _x_, _y_ and _z_ components--and each of these has a variable for mean and standard deviation of signals within the sample window ( (8*3 + 9) * 2 = 66 ). 
+
+#####fbodyaccjerk
+* mean
+    * _fbodyaccjerk-mean()-x_
+    * _fbodyaccjerk-mean()-y_
+    * _fbodyaccjerk-mean()-z_
+
+* standard deviation
+    * _fbodyaccjerk-std()-x_
+    * _fbodyaccjerk-std()-y_
+    * _fbodyaccjerk-std()-z_
+  
+#####fbodyaccmag
+* mean
+    * _fbodyaccmag-mean()_
+* standard deviation
+    * _fbodyaccmag-std()_
+  
+#####fbodyacc
+* mean
+    * _fbodyacc-mean()-x
+    * _fbodyacc-mean()-y_
+    * _fbodyacc-mean()-z_
+* standard deviation
+    * _fbodyacc-std()-x_
+    * _fbodyacc-std()-y_
+    * _fbodyacc-std()-z_
+  
+#####fbodybodyaccjerkmag
+* mean
+    * _fbodybodyaccjerkmag-mean()_
+* standard deviation
+    * _fbodybodyaccjerkmag-std()_
+
+#####fbodybodygyrojerkmag
+* mean
+    * _fbodybodygyrojerkmag-mean()_
+* standard deviation  
+    * _fbodybodygyrojerkmag-std()_
+  
+#####fbodybodygyromag
+* mean
+    * _fbodybodygyromag-mean()_
+* standard deviation
+    * _fbodybodygyromag-std()_
+    
+#####fbodygyro
+* mean
+    * _fbodygyro-mean()-x_
+    * _fbodygyro-mean()-y_
+    * _fbodygyro-mean()-z_
+* standard deviation
+    * _fbodygyro-std()-x_
+    * _fbodygyro-std()-y_
+    * _fbodygyro-std()-z_
+    
+#####tbodyaccjerkmag
+* mean
+    * _tbodyaccjerkmag-mean()_
+* standard deviation
+    * _tbodyaccjerkmag-std()_
+
+#####tbodyaccjerk
+* mean
+    * _tbodyaccjerk-mean()-x_
+    * _tbodyaccjerk-mean()-y_
+    * _tbodyaccjerk-mean()-z_
+* standard deviation
+    * _tbodyaccjerk-std()-x_
+    * _tbodyaccjerk-std()-y_
+    * tbodyaccjerk-std()-z_
+    
+#####tbodyaccmag
+* mean
+    * _tbodyaccmag-mean()_
+* standard deviation
+    * _tbodyaccmag-std()_
+
+#####tbodyacc
+* mean
+    * _tbodyacc-mean()-x_
+    * _tbodyacc-mean()-y_
+    * _tbodyacc-mean()-z_
+* standard deviation
+    * _tbodyacc-std()-x_
+    * _tbodyacc-std()-y_
+    * _tbodyacc-std()-z_
+
+#####tbodygyrojerkmag
+* mean
+    * _tbodygyrojerkmag-mean()_
+* standard deviation
+    * _tbodygyrojerkmag-std()_
+
+#####tbodygyrojerk
+* mean
+    * _tbodygyrojerk-mean()-x_
+    * _tbodygyrojerk-mean()-y_
+    * _tbodygyrojerk-mean()-z_
+* standard deviation
+    * _tbodygyrojerk-std()-x_
+    * _tbodygyrojerk-std()-y_
+    * _tbodygyrojerk-std()-z_
+
+#####tbodygyromag
+* mean
+    * _tbodygyromag-mean()_
+* standard deviation
+    * _tbodygyromag-std()_
+
+#####tbodygyro
+* mean
+    * _tbodygyro-mean()-x_
+    * _tbodygyro-mean()-y_
+    * _tbodygyro-mean()-z_
+* standard deviation
+    * _tbodygyro-std()-x_
+    * _tbodygyro-std()-y_
+    * _tbodygyro-std()-z_
+    
+#####tgravityaccmag
+* mean
+    * _tgravityaccmag-mean()_
+* standard deviation
+    * _tgravityaccmag-std()_
+
+#####tgravityacc
+* mean
+    * _tgravityacc-mean()-x_
+    * _tgravityacc-mean()-y_
+    * _tgravityacc-mean()-z_
+* standard deviation
+    * _tgravityacc-std()-x_
+    * _tgravityacc-std()-y_
+    * _tgravityacc-std()-z_
+
+###mean
+The average calculated for all values of a given variable for a given subject and given activity.  For example, the average of all values of _tbodyaccmag-mean()_ for _subject 23_ when they are _walking_.
+
+The original accelerometer and gyroscope readings from the original dataset were normalized values between -1 and 1. Therefore...
