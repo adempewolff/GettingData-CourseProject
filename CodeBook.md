@@ -6,9 +6,9 @@
 
 ##Table of Contents
 1. Introduction
-2. The Original Experiment and Dataset
-3. Data Preparation and Cleaning
-4. Variables and Structure of Final Dataset
+2. Study Design: The Original Experiment and Dataset
+3. Data Preparation, Cleaning, Analysis and Reshaping
+4. Codebook: Variables and Structure of Final Dataset
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ After importing and cleaning the dataset, I took the mean and standard deviation
 
 ----------------------------------------------------------------------------------------------------------
 
-##The Original Experiment and Dataset:
+##Study Design: The Original Experiment and Dataset:
 
 In the words of the original researchers:
 
@@ -96,6 +96,26 @@ features_info.txt:
 
 ----------------------------------------------------------------------------------------------------------
 
-##Data Preparation and Cleaning:
+##Data Preparation, Cleaning, Analysis and Reshaping:
 
+The data was downloaded, imported, cleaned, analyzed, reshaped and exported using the script run_analysis.R which is described in detail in the file README.md.  In brief, the script performed the following steps:  
+1. Downloaded the [file](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) if not found locally.
+2. Unzipped the dataset to a temporary directory if not already found unzipped.
+3. Read in and label the _test_ and _train_ datasets.
+  * Merged _x_, _y_, and _activity_ tables
+  * Labeled _subject_ and _activity_ columns accordingly
+4. Combined _test_ and _train_ datasets
+5. Changed _subject_ and _activity_ columns to factor variables
+  * Gave factors human readable labels
+6. Assigned variable names for dataset, fixing duplicates
+  * The _bandsEnergy_ variables were all missing (xyz) axis labels.  This was fixed using the assumed order (1) x, (2) y, (3) z.
+7. Selected only mean() and std() variables and saved to a new dataframe
+  * New dataframe is stored as _meanstd_
+  * Old dataframe is left in memory as _fulldata_
+8. Grouped by subject and activity and computed an average for each group
+9. Reshaped into a narrow dataset--gathering variables into one one column and showing avgs for each variable in a second new column
+10. Exported to the tabular text file: "HAR_meanstd_avg.txt"
 
+----------------------------------------------------------------------------------------------------------
+
+##Codebook: Variables and Structure of Final Dataset
