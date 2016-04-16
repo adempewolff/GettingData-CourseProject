@@ -32,13 +32,13 @@ The output of the script is a tabular text file called "HAR\_meanstd_avg.txt".  
 
 The script was developed on a Linux machine, but was written to be platform independent (ie. all filepaths created with file.path() function).
 
-Testing was done in the following environment:
-OS: Ubuntu 15.04
-Kernel: 3.19.0-58-generic #64-Ubuntu
-RStudio: version 0.99.892
-R: 3.2.3 (2015-12-10)
-dlpyr: version 0.4.3
-tidyr: version 0.4.1
+Testing was done in the following environment:  
+OS: Ubuntu 15.04  
+Kernel: 3.19.0-58-generic #64-Ubuntu  
+RStudio: version 0.99.892  
+R: 3.2.3 (2015-12-10)  
+dlpyr: version 0.4.3  
+tidyr: version 0.4.1  
 
 #### **run_analysis.R**
 
