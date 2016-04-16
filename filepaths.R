@@ -1,5 +1,5 @@
 ## This script builds a list with file paths to all the neccesary files in the 
-## UCI HAR dataset.  It uses a function to do this--mostly the save space, but
+## UCI HAR dataset.  It uses a function to do this--mostly to save space, but
 ## this function could also be used to rebuild the file path lists if any of 
 ## the directory names changed.
 

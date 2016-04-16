@@ -106,7 +106,7 @@ features_info.txt:
 
 ###**3. Data Preparation, Cleaning, Analysis and Reshaping:**
 
-The data was downloaded, imported, cleaned, analyzed, reshaped and exported using the script run\_analysis.R which is described in detail in the file README.md.  The script was run on an Ubuntu 15.04 system (64bit) in RStudio (Version 0.99.892) using R version 3.2.3 (2015-12-10).  The script uses the _dlpyr_ (version 0.4.3) and _tidy_ (version 0.4.1) packages.
+The data was downloaded, imported, cleaned, analyzed, reshaped and exported using the script run\_analysis.R which is described in detail in the file README.md.  The script was run on an Ubuntu 15.04 system (64bit) in RStudio (Version 0.99.892) using R version 3.2.3 (2015-12-10).  The script uses the _dlpyr_ (version 0.4.3) and _tidyr_ (version 0.4.1) packages.
 
 In brief, the script performed the following steps:  
 
